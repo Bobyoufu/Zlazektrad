@@ -12,22 +12,24 @@ function translate() {
     let words = inputText.split(" ");
     let outputText = "";
 
-    // Pour chaque mot dans le texte
-    for (let word of words) {
-        // Vérifie si le mot est dans le dictionnaire
+    // Dictionnaire de traduction
+    let dictionary = {
+        "bonjour": "gzu",
+        // Ajoutez d'autres traductions ici
+    };
+
+    // Parcours des mots dans le texte d'entrée
+    for (let i = 0; i < words.length; i++) {
+        let word = words[i];
+        // Vérifie si le mot est présent dans le dictionnaire
         if (dictionary.hasOwnProperty(word)) {
-            // Si le mot est dans le dictionnaire, ajoute sa traduction à la sortie
-            outputText += dictionary[word] + " ";
+            outputText += dictionary[word] + " "; // Ajoute la traduction au texte de sortie
         } else {
-            // Si le mot n'est pas dans le dictionnaire, demande une traduction à l'utilisateur
-            let translation = prompt(`Traduction de '${word}' :`);
-            // Ajoute le mot et sa traduction au dictionnaire
-            dictionary[word] = translation;
-            // Ajoute la traduction (ou le mot original si aucune traduction n'est fournie) à la sortie
-            outputText += (translation || word) + " ";
+            outputText += "Traduction ? "; // Si le mot n'est pas dans le dictionnaire, demande une traduction
         }
     }
 
     // Affichage du texte traduit
-    document.getElementById("outputText").textContent = outputText;
+    document.getElementById("outputText").innerText = outputText;
 }
+
