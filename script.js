@@ -1,7 +1,6 @@
 // Définition du dictionnaire avec quelques traductions
 let dictionary = {
-    "bonjour": "hello",
-    "au revoir": "goodbye"
+    "bonjour": "gzu",
 };
 
 // Fonction pour traduire le texte
@@ -11,12 +10,6 @@ function translate() {
     // Division du texte en mots individuels
     let words = inputText.split(" ");
     let outputText = "";
-
-    // Dictionnaire de traduction
-    let dictionary = {
-        "bonjour": "gzu",
-        // Ajoutez d'autres traductions ici
-    };
 
     // Parcours des mots dans le texte d'entrée
     for (let i = 0; i < words.length; i++) {
@@ -32,4 +25,3 @@ function translate() {
     // Affichage du texte traduit
     document.getElementById("outputText").innerText = outputText;
 }
-
