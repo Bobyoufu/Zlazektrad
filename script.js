@@ -4,7 +4,7 @@ let dictionary = {
 };
 
 // Fonction pour traduire le texte
-function translate() {
+function traduire() {
     // Récupération du texte entré par l'utilisateur
     let inputText = document.getElementById("inputText").value.toLowerCase();
     // Division du texte en mots individuels
