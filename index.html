@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +20,31 @@
 
     <!-- Code JavaScript intégré -->
     <script>
-        // Code JavaScript pour la traduction
-        // Nous allons ajouter le code JavaScript ici
+        // Chargement du dictionnaire depuis le fichier JSON
+        let dictionary;
+        fetch('dictionary.json')
+            .then(response => response.json())
+            .then(data => {
+                dictionary = data;
+            });
+
+        // Fonction pour traduire le texte
+        function traduire() {
+            let inputText = document.getElementById("inputText").value.toLowerCase();
+            let words = inputText.split(" ");
+            let outputText = "";
+
+            for (let i = 0; i < words.length; i++) {
+                let word = words[i];
+                if (dictionary.hasOwnProperty(word)) {
+                    outputText += dictionary[word] + " ";
+                } else {
+                    outputText += "Traduction ? ";
+                }
+            }
+
+            document.getElementById("outputText").innerText = outputText;
+        }
     </script>
 </body>
 </html>
