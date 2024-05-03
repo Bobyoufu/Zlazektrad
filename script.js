@@ -15,7 +15,7 @@ function traduire() {
 
     for (let i = 0; i < words.length; i++) {
         let word = words[i];
-        if (dictionary.hasOwnProperty(word)) {
+        if (word in dictionary) { // Utilisation de l'opérateur "in" pour vérifier si le mot est dans le dictionnaire
             outputText += dictionary[word] + " ";
         } else {
             // Afficher le champ de texte et le bouton d'ajout
