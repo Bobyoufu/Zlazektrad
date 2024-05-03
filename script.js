@@ -1,34 +1,51 @@
-// Définition du dictionnaire avec quelques traductions
-let dictionary = {
-    "bonjour": "gzu",
-};
+// Définition du dictionnaire vide
+let dictionary = {};
 
-// Fonction pour traduire le texte
+// Code JavaScript pour la traduction
 function traduire() {
-    // Récupération du texte entré par l'utilisateur
     let inputText = document.getElementById("inputText").value.toLowerCase();
-    // Division du texte en mots individuels
     let words = inputText.split(" ");
     let outputText = "";
 
-    // Parcours des mots dans le texte d'entrée
     for (let i = 0; i < words.length; i++) {
         let word = words[i];
-        // Vérifie si le mot est présent dans le dictionnaire
         if (dictionary.hasOwnProperty(word)) {
-            outputText += dictionary[word] + " "; // Ajoute la traduction au texte de sortie
+            outputText += dictionary[word] + " ";
         } else {
-            // Si le mot n'est pas dans le dictionnaire, demande une traduction à l'utilisateur
             let newTranslation = prompt("Traduction pour '" + word + "' ?");
             if (newTranslation !== null && newTranslation !== "") {
-                dictionary[word] = newTranslation; // Ajoute le mot et sa traduction au dictionnaire
+                dictionary[word] = newTranslation;
                 outputText += newTranslation + " ";
+                // Mettre à jour le dictionnaire sur GitHub
+                mettreAJourDictionnaireGitHub(word, newTranslation);
             } else {
                 outputText += "Traduction ? ";
             }
         }
     }
 
-    // Affichage du texte traduit
     document.getElementById("outputText").innerText = outputText;
+}
+
+// Fonction pour mettre à jour le dictionnaire sur GitHub
+function mettreAJourDictionnaireGitHub(mot, traduction) {
+    // Définir l'URL de votre fichier texte sur GitHub
+    let urlFichierTexte = "https://raw.githubusercontent.com/Bobyoufu/Zlazektrad/main/dictionary.txt";
+
+    // Récupérer le contenu actuel du fichier texte
+    fetch(urlFichierTexte)
+    .then(response => response.text())
+    .then(data => {
+        // Ajouter la nouvelle traduction au contenu existant
+        let nouveauContenu = data + "\n" + mot + "=" + traduction;
+
+        // Envoyer une requête POST pour mettre à jour le fichier texte sur GitHub
+        fetch(urlFichierTexte, {
+            method: 'PUT',
+            body: nouveauContenu,
+            headers: {
+                'Content-Type': 'text/plain',
+            }
+        });
+    });
 }
