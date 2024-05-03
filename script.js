@@ -1,53 +1,39 @@
-<script>
-    // Définition du dictionnaire vide
-    let dictionary = {};
+let dictionary; // Déclaration de la variable dictionary pour stocker les traductions
 
-    // Fonction pour traduire le texte
-    function traduire() {
-        let inputText = document.getElementById("inputText").value.toLowerCase();
-        let words = inputText.split(" ");
-        let outputText = "";
+// Charger le dictionnaire depuis le fichier JSON au démarrage de la page
+fetch('dictionary.json')
+    .then(response => response.json())
+    .then(data => {
+        dictionary = data; // Stocker les données du JSON dans la variable dictionary
+    });
 
-        for (let i = 0; i < words.length; i++) {
-            let word = words[i];
-            if (dictionary.hasOwnProperty(word)) {
-                outputText += dictionary[word] + " ";
-            } else {
-                let newTranslation = prompt("Traduction pour '" + word + "' ?");
-                if (newTranslation !== null && newTranslation !== "") {
-                    dictionary[word] = newTranslation;
-                    outputText += newTranslation + " ";
-                    // Mettre à jour le dictionnaire sur GitHub
-                    mettreAJourDictionnaireGitHub(word, newTranslation);
-                } else {
-                    outputText += "Traduction ? ";
-                }
-            }
+// Fonction pour traduire le texte
+function traduire() {
+    let inputText = document.getElementById("inputText").value.toLowerCase();
+    let words = inputText.split(" ");
+    let outputText = "";
+
+    for (let i = 0; i < words.length; i++) {
+        let word = words[i];
+        if (dictionary.hasOwnProperty(word)) {
+            outputText += dictionary[word] + " ";
+        } else {
+            outputText += "Traduction ? ";
         }
-
-        document.getElementById("outputText").innerText = outputText;
     }
 
-    // Fonction pour mettre à jour le dictionnaire sur GitHub
-    function mettreAJourDictionnaireGitHub(mot, traduction) {
-        // Définir l'URL de votre fichier texte sur GitHub
-        let urlFichierTexte = "https://raw.githubusercontent.com/Bobyoufu/Zlazektrad/main/dictionary.txt";
+    document.getElementById("outputText").innerText = outputText;
+}
 
-        // Récupérer le contenu actuel du fichier texte
-        fetch(urlFichierTexte)
-        .then(response => response.text())
-        .then(data => {
-            // Ajouter la nouvelle traduction au contenu existant
-            let nouveauContenu = data + "\n" + mot + "=" + traduction;
-
-            // Envoyer une requête POST pour mettre à jour le fichier texte sur GitHub
-            fetch(urlFichierTexte, {
-                method: 'PUT',
-                body: nouveauContenu,
-                headers: {
-                    'Content-Type': 'text/plain',
-                }
-            });
-        });
-    }
-</script>
+// Fonction pour ajouter une nouvelle traduction et mettre à jour le fichier JSON
+function ajouterTraduction(mot, traduction) {
+    dictionary[mot] = traduction; // Ajouter la nouvelle traduction au dictionnaire en mémoire
+    // Mettre à jour le fichier JSON avec les nouvelles données
+    fetch('dictionary.json', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dictionary),
+    });
+}
