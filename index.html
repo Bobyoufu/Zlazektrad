@@ -16,10 +16,12 @@
         <textarea id="inputText" placeholder="Entrez votre texte ici..."></textarea>
         <button onclick="traduire()">Traduire</button>
         <p id="outputText"></p>
+
         <!-- Champ de texte pour ajouter une traduction -->
-        <input type="text" id="nouvelleTraduction" placeholder="Entrez la traduction...">
+        <input type="text" id="nouvelleTraduction" placeholder="Entrez la traduction..." style="display: none;">
+        
         <!-- Bouton pour ajouter la traduction -->
-        <button id="boutonAjouter" onclick="ajouterTraduction()">Ajouter</button>
+        <button id="boutonAjouter" onclick="ajouterTraduction()" style="display: none;">Ajouter</button>
     </main>
 
     <!-- Code JavaScript intégré -->
@@ -80,4 +82,3 @@
     </script>
 </body>
 </html>
-
