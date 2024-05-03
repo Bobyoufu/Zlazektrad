@@ -18,7 +18,14 @@ function traduire() {
         if (dictionary.hasOwnProperty(word)) {
             outputText += dictionary[word] + " "; // Ajoute la traduction au texte de sortie
         } else {
-            outputText += "Traduction ? "; // Si le mot n'est pas dans le dictionnaire, demande une traduction
+            // Si le mot n'est pas dans le dictionnaire, demande une traduction à l'utilisateur
+            let newTranslation = prompt("Traduction pour '" + word + "' ?");
+            if (newTranslation !== null && newTranslation !== "") {
+                dictionary[word] = newTranslation; // Ajoute le mot et sa traduction au dictionnaire
+                outputText += newTranslation + " ";
+            } else {
+                outputText += "Traduction ? ";
+            }
         }
     }
 
