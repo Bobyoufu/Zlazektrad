@@ -18,7 +18,10 @@ function traduire() {
         if (dictionary.hasOwnProperty(word)) {
             outputText += dictionary[word] + " ";
         } else {
-            outputText += "Traduction ? ";
+            // Afficher le champ de texte et le bouton d'ajout
+            document.getElementById("nouvelleTraduction").style.display = "block";
+            document.getElementById("boutonAjouter").style.display = "block";
+            return; // Arrêter la fonction ici si la traduction est inconnue
         }
     }
 
@@ -26,8 +29,13 @@ function traduire() {
 }
 
 // Fonction pour ajouter une nouvelle traduction et mettre à jour le fichier JSON
-function ajouterTraduction(mot, traduction) {
-    dictionary[mot] = traduction; // Ajouter la nouvelle traduction au dictionnaire en mémoire
+function ajouterTraduction() {
+    let nouveauMot = document.getElementById("inputText").value.toLowerCase();
+    let nouvelleTraduction = document.getElementById("nouvelleTraduction").value;
+
+    // Ajouter la nouvelle traduction au dictionnaire en mémoire
+    dictionary[nouveauMot] = nouvelleTraduction;
+
     // Mettre à jour le fichier JSON avec les nouvelles données
     fetch('dictionary.json', {
         method: 'PUT',
@@ -36,4 +44,12 @@ function ajouterTraduction(mot, traduction) {
         },
         body: JSON.stringify(dictionary),
     });
+
+    // Cacher le champ de texte et le bouton d'ajout
+    document.getElementById("nouvelleTraduction").style.display = "none";
+    document.getElementById("boutonAjouter").style.display = "none";
+
+    // Traduire à nouveau le texte avec la nouvelle traduction ajoutée
+    traduire();
 }
+
