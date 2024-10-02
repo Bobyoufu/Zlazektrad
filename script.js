@@ -1,39 +1,48 @@
-// Récupère le dictionnaire depuis le Local Storage ou initialise un dictionnaire vide avec quelques mots par défaut
-let knownWords = JSON.parse(localStorage.getItem('zlazekDictionary')) || {
-    "bonjour": "zlazek-bon",
-    "chat": "zlazek-chaton",
-    "maison": "zlazek-domu"
-    // Ajoute ici d'autres mots par défaut si nécessaire
-};
+// Vérifie s'il existe déjà des traductions dans localStorage, sinon en crée une
+let translations = JSON.parse(localStorage.getItem('zlazekTranslations')) || {};
 
-// Fonction pour sauvegarder le dictionnaire dans le Local Storage
-function saveDictionary() {
-    localStorage.setItem('zlazekDictionary', JSON.stringify(knownWords));
-}
-
-document.getElementById('translateButton').addEventListener('click', function () {
-    const inputWord = document.getElementById('inputWord').value.trim().toLowerCase();
-    const resultMessage = document.getElementById('resultMessage');
-
-    if (inputWord === "") {
-        // 3e situation : Pas de mot entré
-        resultMessage.textContent = "Entrez un mot pour le traduire en Zlazek.";
-        resultMessage.style.color = "red";
-    } else if (knownWords[inputWord]) {
-        // 2e situation : Le mot est connu
-        resultMessage.textContent = `Traduction : ${knownWords[inputWord]}`;
-        resultMessage.style.color = "green";
-    } else {
-        // 1er situation : Le mot est inconnu
-        const newWord = prompt("Mot inconnu. Entrez la traduction du mot :");
-        if (newWord) {
-            knownWords[inputWord] = newWord; // Ajoute le nouveau mot et sa traduction
-            saveDictionary(); // Sauvegarde le dictionnaire mis à jour dans le Local Storage
-            resultMessage.textContent = `Nouveau mot ajouté ! Traduction : ${newWord}`;
-            resultMessage.style.color = "blue";
-        } else {
-            resultMessage.textContent = "Aucune traduction ajoutée.";
-            resultMessage.style.color = "orange";
-        }
+// Fonction pour afficher la traduction ou demander une nouvelle traduction
+document.getElementById('translateBtn').addEventListener('click', function () {
+    const word = document.getElementById('wordInput').value.trim().toLowerCase();
+    
+    if (word === "") {
+        document.getElementById('translationOutput').innerText = "Entrez un mot à traduire.";
+        document.getElementById('newWordSection').style.display = "none";
+        return;
     }
+
+    if (translations[word]) {
+        // Si le mot est déjà dans la base, affiche la traduction
+        document.getElementById('translationOutput').innerText = `Traduction: ${translations[word]}`;
+        document.getElementById('newWordSection').style.display = "none";
+    } else {
+        // Sinon, affiche la section pour entrer une nouvelle traduction
+        document.getElementById('translationOutput').innerText = `Le mot "${word}" est inconnu.`;
+        document.getElementById('newWordSection').style.display = "block";
+    }
+});
+
+// Sauvegarde la nouvelle traduction
+document.getElementById('saveTranslationBtn').addEventListener('click', function () {
+    const word = document.getElementById('wordInput').value.trim().toLowerCase();
+    const newTranslation = document.getElementById('newTranslation').value.trim();
+    
+    if (newTranslation === "") {
+        alert("Veuillez entrer une traduction.");
+        return;
+    }
+
+    // Sauvegarde la nouvelle traduction dans l'objet translations
+    translations[word] = newTranslation;
+    
+    // Met à jour localStorage
+    localStorage.setItem('zlazekTranslations', JSON.stringify(translations));
+
+    // Affiche la nouvelle traduction et cache la section d'ajout
+    document.getElementById('translationOutput').innerText = `Traduction sauvegardée: ${newTranslation}`;
+    document.getElementById('newWordSection').style.display = "none";
+    
+    // Efface les champs
+    document.getElementById('newTranslation').value = "";
+    document.getElementById('wordInput').value = "";
 });
