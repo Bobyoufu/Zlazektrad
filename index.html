@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zlazek Trad</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <header>
-        <h1>Zlazek Trad - Traduisez en Zlazek !</h1>
-    </header>
+    <div class="container">
+        <h1>Zlazek Trad</h1>
+        <p id="instruction">Entrez un mot à traduire :</p>
+        <input type="text" id="wordInput" placeholder="Entrez un mot...">
+        <button id="translateBtn">Traduire</button>
 
-    <main>
-        <div class="translator">
-            <input type="text" id="inputWord" placeholder="Entrez un mot en français">
-            <button id="translateButton">Traduire</button>
-            <p id="resultMessage"></p>
+        <p id="translationOutput"></p>
+        
+        <div id="newWordSection" style="display: none;">
+            <p>Mot inconnu, entrez la traduction associée :</p>
+            <input type="text" id="newTranslation" placeholder="Nouvelle traduction...">
+            <button id="saveTranslationBtn">Sauvegarder la traduction</button>
         </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Zlazek Trad. Tous droits réservés.</p>
-    </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
